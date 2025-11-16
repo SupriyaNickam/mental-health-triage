@@ -26,15 +26,45 @@ if 'model_initialized' not in st.session_state:
 if not st.session_state.model_initialized:
     with st.spinner("🤖 Loading AI model (one-time setup)..."):
         try:
-            from train_model import MentalHealthClassifier
-            classifier = MentalHealthClassifier()
-            classifier.load_model('mental_health_model.pkl')
-            st.session_state.classifier = classifier
-            st.session_state.model_initialized = True
+            # Try multiple possible model locations
+            model_paths = [
+                'mental_health_model.pkl',
+                './mental_health_model.pkl',
+                'train_model.py'  # Fallback to training if no model file
+            ]
+            
+            model_loaded = False
+            for model_path in model_paths:
+                try:
+                    if model_path.endswith('.pkl'):
+                        classifier = MentalHealthClassifier()
+                        classifier.load_model(model_path)
+                        st.session_state.classifier = classifier
+                        model_loaded = True
+                        st.success("✅ AI model loaded successfully!")
+                        break
+                    elif model_path.endswith('.py'):
+                        # Train model if no pre-trained model exists
+                        from train_model import MentalHealthClassifier
+                        classifier = MentalHealthClassifier()
+                        classifier.train()
+                        classifier.save_model()
+                        st.session_state.classifier = classifier
+                        model_loaded = True
+                        st.success("✅ AI model trained and loaded!")
+                        break
+                except Exception as e:
+                    continue
+            
+            if not model_loaded:
+                st.session_state.classifier = None
+                st.warning("⚠️ Using rule-based system only. ML model unavailable.")
+                
         except Exception as e:
             st.session_state.classifier = None
-            st.session_state.model_initialized = True
-            st.sidebar.warning(f"ML model not available: {str(e)}")
+            st.warning(f"⚠️ Using rule-based system only: {str(e)}")
+        
+        st.session_state.model_initialized = True
 
 #load csv file
 @st.cache_data
@@ -51,7 +81,19 @@ resources_df = load_resources()
 
 # Categorization with mental health keywords
 def categorize_query(text):
-    """Enhanced rule-based categorization"""
+     # Use ML model if available
+    if st.session_state.classifier is not None:
+        try:
+            prediction, confidence, probabilities = st.session_state.classifier.predict(text)
+            st.sidebar.info(f"🤖 AI Confidence: {confidence:.1%}")
+            
+            # Only use ML prediction if confidence is high enough
+            if confidence > 0.6:
+                return prediction
+            # Fall back to rule-based if low confidence
+        except Exception as e:
+            st.sidebar.warning("ML model temporarily unavailable")
+
     text_lower = text.lower()
     
     crisis_keywords = ['suicide', 'suicidal', 'end my life', 'kill myself', 'want to die', 'hopeless', 'no reason to live']
@@ -80,7 +122,7 @@ def categorize_query(text):
     elif any(word in text_lower for word in general_anxiety_keywords):  # General anxiety
         return 'therapy'
     else:
-        return 'crisis'
+        return 'therapy'
 
 #Calm tip while loading analysis results
 def show_calm_screen():

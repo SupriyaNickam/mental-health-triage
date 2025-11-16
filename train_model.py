@@ -29,18 +29,23 @@ class MentalHealthClassifier:
         self.accuracy = 0
         
     def clean_text(self, text):
-        """Clean and preprocess text data"""
-        if isinstance(text, str):
-            # Convert to lowercase
-            text = text.lower()
-            # Remove URLs
-            text = re.sub(r'http\S+', '', text)
-            # Remove special characters and digits
-            text = re.sub(r'[^a-zA-Z\s]', '', text)
-            # Remove extra whitespace
-            text = ' '.join(text.split())
-            return text
-        return ""
+        if not isinstance(text, str) or not text.strip():
+            return ""
+        
+        text = text.lower().strip()
+        
+        # Remove URLs, emails, phone numbers
+        text = re.sub(r'http\S+', '', text)
+        text = re.sub(r'\S*@\S*\s?', '', text)
+        text = re.sub(r'\d{10,}', '', text)
+        
+        # Keep some meaningful punctuation for mental health context
+        text = re.sub(r'[^a-zA-Z\s!?]', '', text)  # Keep ! and ?
+        
+        # Handle repeated characters
+        text = re.sub(r'(.)\1+', r'\1', text)
+        
+        return ' '.join(text.split())
     
     def create_training_data(self):
     
@@ -79,6 +84,24 @@ class MentalHealthClassifier:
             "communication issues with spouse", "marital counseling needed",
             "domestic conflict resolution"
         ]
+
+        additional_crisis = [
+        "i can't go on like this", "want to disappear forever", 
+        "thinking of self harm", "life is too painful",
+        "no one would miss me", "planning suicide", "feel completely alone"
+        ]
+    
+        additional_therapy = [
+            "anxiety management techniques", "coping with depression",
+            "stress management counseling", "relationship counseling",
+            "career guidance therapy", "family therapy needed",
+            "dealing with panic attacks", "social anxiety help"
+        ]
+
+        general_queries = [
+        "mental health resources", "find a therapist", 
+        "psychological help", "mental wellness", "emotional support"
+        ]
         
         # Add to training data with appropriate labels
         for query in crisis_queries:
@@ -88,6 +111,12 @@ class MentalHealthClassifier:
         for query in academic_queries:
             training_data.append({"text": query, "label": "therapy"})
         for query in relationship_queries:
+            training_data.append({"text": query, "label": "therapy"})
+        for query in additional_crisis:
+            training_data.append({"text": query, "label": "crisis"})
+        for query in additional_therapy:
+            training_data.append({"text": query, "label": "therapy"})
+        for query in general_queries:
             training_data.append({"text": query, "label": "therapy"})
         
         return pd.DataFrame(training_data)
@@ -128,15 +157,16 @@ class MentalHealthClassifier:
         
         return self.accuracy
     
-    def predict(self, text):
-        """Predict category for new text"""
+    def predict(self, text, confidence_threshold=0.6):
         cleaned_text = self.clean_text(text)
         text_vec = self.vectorizer.transform([cleaned_text])
-        prediction = self.model.predict(text_vec)[0]
         probabilities = self.model.predict_proba(text_vec)[0]
-        
-        # Get confidence score
         confidence = max(probabilities)
+        prediction = self.model.predict(text_vec)[0]
+        
+        # Return "uncertain" if confidence is low
+        if confidence < confidence_threshold:
+            return "uncertain", confidence, dict(zip(self.classes_, probabilities))
         
         return prediction, confidence, dict(zip(self.classes_, probabilities))
     
@@ -161,29 +191,56 @@ class MentalHealthClassifier:
             self.accuracy = data['accuracy']
         print(f"Model loaded from {filename}")
 
+def validate_model(self, custom_queries=None):
+    """Validate model with known test cases"""
+    test_cases = {
+        "crisis": [
+            "i want to kill myself",
+            "ending my life seems like the only option",
+            "can't take this pain anymore"
+        ],
+        "therapy": [
+            "need help with anxiety",
+            "looking for counseling services",
+            "relationship problems affecting my mental health"
+        ]
+    }
+    
+    print("Model Validation Results:")
+    for true_label, queries in test_cases.items():
+        print(f"\nTesting {true_label} cases:")
+        for query in queries:
+            pred, conf, probs = self.predict(query)
+            status = "✓" if pred == true_label else "✗"
+            print(f"  {status} '{query}' -> {pred} (conf: {conf:.2f})")
+
 def main():
-    """Train and save the model"""
+    """Train, validate and save the model"""
     classifier = MentalHealthClassifier()
     
     # Train the model
     accuracy = classifier.train()
     
-    # Test with some examples
-    test_queries = [
-        "I've been feeling really sad and hopeless lately",
-        "I need help with anxiety and panic attacks",
-        "Looking for affordable therapy options",
-        "I'm having suicidal thoughts and need immediate help",
-        "Where can I find mental health resources?"
-    ]
+    # Validate with test cases
+    classifier.validate_model()
     
-    print("\nTesting the model:")
-    for query in test_queries:
-        prediction, confidence, probs = classifier.predict(query)
-        print(f"Query: '{query}'")
-        print(f"Prediction: {prediction} (confidence: {confidence:.2f})")
-        print(f"Probabilities: {probs}")
-        print("-" * 50)
+    # Interactive testing
+    print("\nInteractive testing (type 'quit' to exit):")
+    while True:
+        user_input = input("\nEnter a query to classify: ").strip()
+        if user_input.lower() in ['quit', 'exit', '']:
+            break
+        
+        prediction, confidence, probabilities = classifier.predict(user_input)
+        print(f"Prediction: {prediction}")
+        print(f"Confidence: {confidence:.2f}")
+        print(f"Probabilities: {probabilities}")
+        
+        # Add safety warning for crisis detection
+        if prediction == "crisis" and confidence > 0.7:
+            print("\n🚨 CRISIS DETECTED - Consider immediate help:")
+            print("National Suicide Prevention Lifeline: 1-800-273-8255")
+            print("Crisis Text Line: Text HOME to 741741")
     
     # Save the model
     classifier.save_model()
