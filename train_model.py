@@ -220,29 +220,29 @@ class MentalHealthClassifier:
             self.accuracy = data['accuracy']
         print(f"Model loaded from {filename}")
 
-def validate_model(self, custom_queries=None):
+    def validate_model(self, custom_queries=None):
 
-    #Validate model with known test cases
-    test_cases = {
-        "crisis": [
-            "i want to kill myself",
-            "ending my life seems like the only option",
-            "can't take this pain anymore"
-        ],
-        "therapy": [
-            "need help with anxiety",
-            "looking for counseling services",
-            "relationship problems affecting my mental health"
-        ]
-    }
-    
-    print("Model Validation Results:")
-    for true_label, queries in test_cases.items():
-        print(f"\nTesting {true_label} cases:")
-        for query in queries:
-            pred, conf, probs = self.predict(query)
-            status = "✓" if pred == true_label else "✗"
-            print(f"  {status} '{query}' -> {pred} (conf: {conf:.2f})")
+        #Validate model with known test cases
+        test_cases = {
+            "crisis": [
+                "i want to kill myself",
+                "ending my life seems like the only option",
+                "can't take this pain anymore"
+            ],
+            "therapy": [
+                "need help with anxiety",
+                "looking for counseling services",
+                "relationship problems affecting my mental health"
+            ]
+        }
+        
+        print("Model Validation Results:")
+        for true_label, queries in test_cases.items():
+            print(f"\nTesting {true_label} cases:")
+            for query in queries:
+                pred, conf, probs = self.predict(query)
+                status = "✓" if pred == true_label else "✗"
+                print(f"  {status} '{query}' -> {pred} (conf: {conf:.2f})")
 
 def main():
     """Train, validate and save the model"""
