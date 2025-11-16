@@ -54,15 +54,52 @@ class MentalHealthClassifier:
             "i want to end my life", "suicidal thoughts", "thinking about suicide",
             "i want to die", "life is not worth living", "no reason to live",
             "ending it all", "i feel hopeless", "extreme emotional pain",
-            "overwhelming despair", "cant take it anymore", "self harm",
-            "harm myself", "not safe with myself"
+            "overwhelming despair", "cant take it anymore", "self harm","i cant go on like this anymore", "everything feels pointless",
+            "the pain is too much to bear", "i want to disappear forever",
+            "no one would care if i was gone", "i'm a burden to everyone",
+            "the world would be better without me", "i have nothing left to live for",
+            "this suffering needs to end", "i'm planning to kill myself",
+            "thinking of ways to end it all", "i've made plans to commit suicide",
+            "i have a suicide plan", "ready to end my suffering",
+            "can't cope with this pain anymore", "life is unbearable",
+            "i see no way out of this", "completely hopeless about everything",
+            "the darkness is consuming me", "i feel trapped with no escape",
+            "ending everything seems like the only option", "suicide is my only way out",
+            "i've decided to kill myself", "preparing to end my life",
+            "this will all be over soon", "final goodbye to everyone",
+            "no hope left in my life", "completely broken beyond repair"
+            "harm myself", "not safe with myself", "my existence is a burden", "I don't see the point in living anymore"
         ]
         
         gender_queries = [
             "i think i might be asexual", "struggling with my gender identity",
             "coming out as gay", "family rejection for being lgbtq",
             "unable to relate to peers about sexuality", "gender dysphoria",
-            "sexual orientation confusion", "lgbtq discrimination",
+            "sexual orientation confusion", "lgbtq discrimination", "questioning my sexual orientation", "not sure if i'm straight",
+            "attracted to the same gender", "coming out to my parents",
+            "family doesn't accept my identity", "lgbtq bullying at school",
+            "workplace discrimination for being gay", "gender identity crisis",
+            "want to change my gender", "hormone therapy questions",
+            "sexual identity exploration", "bisexual but confused",
+            "pansexual and need support", "non-binary gender expression",
+            "they/them pronouns struggle", "misgendered at work",
+            "transitioning socially", "medical transition concerns",
+            "lgbtq relationship issues", "same-sex marriage counseling",
+            "conversion therapy trauma", "religious family rejection",
+            "internalized homophobia", "dating as a transgender person",
+            "lgbtq mental health support", "queer community finding",
+            "asexual spectrum questions", "aromantic and need guidance",
+            "intersex identity support", "gender fluidity confusion",
+            "cross-dressing and mental health", "lgbtq youth homelessness",
+            "elderly lgbtq isolation", "rural area lgbtq loneliness",
+            "cultural lgbtq conflicts", "traditional family pressure",
+            "lgbtq career challenges", "workplace coming out anxiety",
+            "religious lgbtq reconciliation", "spiritual lgbtq acceptance",
+            "lgbtq parenting questions", "rainbow family support",
+            "gender affirming care access", "surgery consultation support",
+            "name change process stress", "legal gender marker change",
+            "lgbtq immigration concerns", "refugee lgbtq safety",
+            "caste and sexuality intersection", "regional lgbtq challenges"
             "transgender transition", "pronouns and identity", "confused about my gender", "confused about sexuality"
         ]
         
