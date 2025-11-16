@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
@@ -10,7 +9,7 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 
-# Download NLTK data (run first time only)
+# Download NLTK data 
 try:
     nltk.data.find('tokenizers/punkt')
 except LookupError:
@@ -39,8 +38,8 @@ class MentalHealthClassifier:
         text = re.sub(r'\S*@\S*\s?', '', text)
         text = re.sub(r'\d{10,}', '', text)
         
-        # Keep some meaningful punctuation for mental health context
-        text = re.sub(r'[^a-zA-Z\s!?]', '', text)  # Keep ! and ?
+        # Keep some meaningful punctuation (! and ?) for mental health context
+        text = re.sub(r'[^a-zA-Z\s!?]', '', text) 
         
         # Handle repeated characters
         text = re.sub(r'(.)\1+', r'\1', text)
@@ -51,7 +50,6 @@ class MentalHealthClassifier:
     
         training_data = []
         
-        # Enhanced crisis queries
         crisis_queries = [
             "i want to end my life", "suicidal thoughts", "thinking about suicide",
             "i want to die", "life is not worth living", "no reason to live",
@@ -60,16 +58,14 @@ class MentalHealthClassifier:
             "harm myself", "not safe with myself"
         ]
         
-        # Enhanced gender/sexuality queries
         gender_queries = [
             "i think i might be asexual", "struggling with my gender identity",
             "coming out as gay", "family rejection for being lgbtq",
             "unable to relate to peers about sexuality", "gender dysphoria",
             "sexual orientation confusion", "lgbtq discrimination",
-            "transgender transition", "pronouns and identity"
+            "transgender transition", "pronouns and identity", "confused about my gender", "confused about sexuality"
         ]
         
-        # Enhanced academic stress queries
         academic_queries = [
             "jee preparation stress", "neet exam pressure", "academic burnout",
             "college entrance exam anxiety", "study pressure overwhelming",
@@ -77,7 +73,6 @@ class MentalHealthClassifier:
             "competitive exam pressure", "parental expectations stress"
         ]
         
-        # Enhanced relationship queries
         relationship_queries = [
             "my husband yells at me", "marital conflict", "relationship problems",
             "partner anger issues", "emotional abuse in marriage",
@@ -122,7 +117,6 @@ class MentalHealthClassifier:
         return pd.DataFrame(training_data)
     
     def train(self):
-        """Train the classification model"""
         print("Creating training data...")
         df = self.create_training_data()
         
@@ -171,7 +165,6 @@ class MentalHealthClassifier:
         return prediction, confidence, dict(zip(self.classes_, probabilities))
     
     def save_model(self, filename='mental_health_model.pkl'):
-        """Save the trained model"""
         with open(filename, 'wb') as f:
             pickle.dump({
                 'vectorizer': self.vectorizer,
@@ -182,7 +175,6 @@ class MentalHealthClassifier:
         print(f"Model saved as {filename}")
     
     def load_model(self, filename='mental_health_model.pkl'):
-        """Load a trained model"""
         with open(filename, 'rb') as f:
             data = pickle.load(f)
             self.vectorizer = data['vectorizer']
@@ -192,7 +184,8 @@ class MentalHealthClassifier:
         print(f"Model loaded from {filename}")
 
 def validate_model(self, custom_queries=None):
-    """Validate model with known test cases"""
+
+    #Validate model with known test cases
     test_cases = {
         "crisis": [
             "i want to kill myself",
@@ -219,7 +212,7 @@ def main():
     classifier = MentalHealthClassifier()
     
     # Train the model
-    accuracy = classifier.train()
+    classifier.train()
     
     # Validate with test cases
     classifier.validate_model()

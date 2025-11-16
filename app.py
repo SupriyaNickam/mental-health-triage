@@ -84,7 +84,7 @@ def categorize_query(text):
      # Use ML model if available
     if st.session_state.classifier is not None:
         try:
-            prediction, confidence, probabilities = st.session_state.classifier.predict(text)
+            prediction, confidence, _ = st.session_state.classifier.predict(text)
             st.sidebar.info(f"🤖 AI Confidence: {confidence:.1%}")
             
             # Only use ML prediction if confidence is high enough
@@ -137,7 +137,7 @@ def show_calm_screen():
         st.success(f"{random.choice(tips)}")
 
 def calculate_relevance_score(resource, user_query):
-    """Calculate relevance score based on multiple factors including specialty matching"""
+    # Calculate relevance score based on multiple factors including specialty matching
     score = 0
     query_lower = user_query.lower()
     specialty = str(resource['specialty']).lower()
@@ -189,7 +189,7 @@ if 'filters_initialized' not in st.session_state:
 
 if st.button("Analyze & Find Resources", type="primary"):
     if user_input:
-        # Show calming screen first
+        # Show calming message
         show_calm_screen()
         
         # Determine category
@@ -205,7 +205,7 @@ if st.button("Analyze & Find Resources", type="primary"):
         st.session_state.selected_locations = []
         st.session_state.online_only = False
 
-# Display results and filters if we have a query
+# Display results and filters if there is user input
 if st.session_state.get('filters_initialized', False):
     predicted_category = st.session_state.predicted_category
     user_input = st.session_state.user_input
@@ -241,7 +241,7 @@ if st.session_state.get('filters_initialized', False):
             if pd.notna(row['location']):
                 locations = [l.strip() for l in str(row['location']).replace(',', ';').split(';')]
                 all_locations.update(locations)
-        
+
         # Language filter - disabled for crisis
         if all_languages:
             if predicted_category == 'crisis':
@@ -395,7 +395,7 @@ with st.sidebar:
     
     st.divider()
         
-    try:
+    try: 
         st.image("sidebar_image.png", width=220, caption="  ")
     except Exception as e:
         st.error(f"Cannot load image: {e}")
