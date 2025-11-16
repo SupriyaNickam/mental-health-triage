@@ -1,0 +1,364 @@
+/* style.css */
+/* Main background */
+.stApp {
+    background-color: #e2eefb !important;
+}
+
+/* Sidebar background */
+section[data-testid="stSidebar"] > div {
+    background-color: #007474 !important;
+}
+
+/* Sidebar text color */
+section[data-testid="stSidebar"] h1,
+section[data-testid="stSidebar"] h2,
+section[data-testid="stSidebar"] h3,
+section[data-testid="stSidebar"] p,
+section[data-testid="stSidebar"] div,
+section[data-testid="stSidebar"] span {
+    color: #FFFFFF !important;
+}
+
+/* Sidebar button */
+section[data-testid="stSidebar"] .stButton > button {
+    background-color: #e2eefb !important;
+    color: #007474 !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 0.5rem 1rem !important;
+}
+
+/* Sidebar button text */
+section[data-testid="stSidebar"] button,
+section[data-testid="stSidebar"] button p,
+section[data-testid="stSidebar"] button div,
+section[data-testid="stSidebar"] button span,
+section[data-testid="stSidebar"] .stButton > button,
+section[data-testid="stSidebar"] .stButton > button p,
+section[data-testid="stSidebar"] .stButton > button div,
+section[data-testid="stSidebar"] .stButton > button span {
+    color: #007474 !important;
+}
+
+section[data-testid="stSidebar"] .stButton > button:hover {
+    background-color: #E0F2F1 !important;
+    color: #007474 !important;
+}
+
+/* Main screen text */
+.stMarkdown, 
+.stMarkdown p,
+.stMarkdown div,
+.stMarkdown span,
+.stText,
+.stText p,
+.stText div,
+.stText span,
+[data-testid="stMarkdownContainer"],
+[data-testid="stMarkdownContainer"] p,
+[data-testid="stMarkdownContainer"] div,
+[data-testid="stMarkdownContainer"] span {
+    color: #004242 !important;
+}
+
+/* Headers */
+h1, h2, h3 {
+    color: #004242 !important;
+    font-weight: 600;
+}
+
+/* Primary button - FIXED: Ensure white text */
+.stButton > button {
+    background-color: #008080 !important;
+    color: #FFFFFF !important;
+    border: none !important;
+    border-radius: 12px !important;
+    padding: 0.75rem 2rem !important;
+    font-weight: 500 !important;
+}
+
+.stButton > button:hover {
+    background-color: #006666 !important;
+    color: #FFFFFF !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 128, 128, 0.3);
+}
+
+/* Button text specifically */
+.stButton > button,
+.stButton > button p,
+.stButton > button div,
+.stButton > button span {
+    color: #FFFFFF !important;
+}
+
+/* Expanders  */
+.streamlit-expanderHeader {
+    background-color: #b5d2d3 !important;
+    border: 1px solid #E1E8ED !important;
+    border-radius: 12px !important;
+    color: #FFFFFF !important;
+}
+
+/* Expanded state - THIS IS THE KEY FIX */
+div[data-testid="stExpander"] div[aria-expanded="true"] {
+    background-color: #b5d2d3 !important;
+    color: #004242 !important;
+}
+
+/* Target the header when expanded */
+.streamlit-expanderHeader[aria-expanded="true"] {
+    background-color: #b5d2d3 !important;
+    color: #004242 !important;
+}
+        
+/* Nuclear option for expander headers */
+[data-testid="stExpander"] > details > summary {
+    background-color: #b5d2d3 !important;
+    color: #004242 !important;
+}
+
+/* Expander content */
+.streamlit-expanderContent {
+    background-color: #FFFFFF !important;
+    border: 1px solid #E1E8ED !important;
+    border-top: none !important;
+    border-radius: 0 0 12px 12px !important;
+}
+
+/* Expander content text */
+.streamlit-expanderContent,
+.streamlit-expanderContent p,
+.streamlit-expanderContent div,
+.streamlit-expanderContent span {
+    color: #004242 !important;
+}
+
+/* Text areas - FIXED PLACEHOLDER */
+.stTextArea textarea {
+    border: 1px solid #E1E8ED !important;
+    border-radius: 8px !important;
+    background-color: #FFFFFF !important;
+    color: #004242 !important;
+}
+
+/* Placeholder text color */
+.stTextArea textarea::placeholder {
+    color: #666666 !important;
+    opacity: 0.7 !important;
+}
+
+/* Alert boxes text */
+.stAlert,
+.stAlert p,
+.stAlert div,
+.stAlert span {
+    color: #004242 !important;
+}
+
+/* Filter Section Styling*/
+/* Filter container background */
+div[data-testid="column"]:nth-child(2) {
+    background-color: #f8fbfe !important;
+    padding: 1.5rem !important;
+    border-radius: 12px !important;
+    border: 1px solid #e1e8ed !important;
+    margin-left: 1rem !important;
+}
+
+/* Multiselect dropdown background */
+.stMultiSelect [data-baseweb="select"] {
+    background-color: #FFFFFF !important;
+    border: 1px solid #5f9ea0 !important;
+    border-radius: 8px !important;
+}
+
+/* Multiselect dropdown when open */
+.stMultiSelect [data-baseweb="select"]:focus-within {
+    border-color: #008080 !important;
+    box-shadow: 0 0 0 2px rgba(0, 128, 128, 0.1) !important;
+}
+
+/* Dropdown popover/menu background */
+section[data-baseweb="popover"] {
+    background-color: #FFFFFF !important;
+    border: 1px solid #5f9ea0 !important;
+    border-radius: 8px !important;
+}
+
+/* Dropdown menu items */
+div[role="listbox"] {
+    background-color: #FFFFFF !important;
+}
+
+div[role="option"] {
+    background-color: #FFFFFF !important;
+    color: #004242 !important;
+}
+
+div[role="option"]:hover {
+    background-color: #e2eefb !important;
+    color: #004242 !important;
+}
+
+/* Selected tags in the multiselect */
+[data-baseweb="tag"] {
+    background-color: #e2eefb !important;
+    color: #004242 !important;
+    border: 1px solid #5f9ea0 !important;
+    border-radius: 6px !important;
+}
+
+/* Checkbox styling */
+[data-baseweb="checkbox"] {
+    background-color: #FFFFFF !important;
+}
+
+[data-baseweb="checkbox"]:hover {
+    background-color: #e2eefb !important;
+}
+
+/* Nuclear option for Streamlit's baseweb components */
+[data-baseweb="select"] * {
+    background-color: #FFFFFF !important;
+    color: #004242 !important;
+}
+
+[data-baseweb="popover"] * {
+    background-color: #FFFFFF !important;
+    color: #004242 !important;
+}
+
+/* Checkbox styling */
+.stCheckbox {
+    margin-bottom: 1.5rem !important;
+}
+
+.stCheckbox label {
+    color: #004242 !important;
+    font-weight: 600 !important;
+    font-size: 0.9rem !important;
+}
+
+.stCheckbox [data-baseweb="checkbox"] {
+    background-color: #FFFFFF !important;
+    border: 1px solid #5f9ea0 !important;
+}
+
+.stCheckbox [data-baseweb="checkbox"]:hover {
+    background-color: #e2eefb !important;
+}
+
+.stCheckbox [data-baseweb="checkbox"][aria-checked="true"] {
+    background-color: #008080 !important;
+    border-color: #008080 !important;
+}
+
+/* Text area border - remove red */
+.stTextArea textarea:focus {
+    border-color: #5f9ea0 !important;
+    box-shadow: 0 0 0 1px #5f9ea0 !important;
+    outline: none !important;
+}
+
+.stTextArea textarea {
+    border: 1px solid #5f9ea0 !important;
+}
+
+/* Checkbox styling - remove red */
+.stCheckbox [data-baseweb="checkbox"] {
+    background-color: #FFFFFF !important;
+    border: 1px solid #5f9ea0 !important;
+}
+
+.stCheckbox [data-baseweb="checkbox"]:hover {
+    background-color: #e2eefb !important;
+    border-color: #008080 !important;
+}
+
+.stCheckbox [data-baseweb="checkbox"][aria-checked="true"] {
+    background-color: #008080 !important;
+    border-color: #008080 !important;
+}
+
+/* Checkbox checkmark color */
+.stCheckbox [data-baseweb="checkbox"] path {
+    fill: #FFFFFF !important;
+}
+
+/* Nuclear option for all focus states */
+*:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Remove any red borders from all elements */
+* {
+    border-color: #5f9ea0 !important;
+}
+
+/* Force text cursor on textarea */
+.stTextArea textarea {
+    cursor: text !important;
+}
+
+/* Text area focus state - custom outline */
+
+/* Text area focus state - custom outline */
+.stTextArea textarea:focus {
+    border-color: #008080 !important;
+    box-shadow: 0 0 0 3px rgba(0, 128, 128, 0.2) !important;
+    outline: 2px solid #008080 !important;
+    outline-offset: 2px !important;
+}
+
+.stTextArea textarea {
+    border: 2px solid #5f9ea0 !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease !important;
+}
+
+/* Remove any red focus states */
+.stTextArea textarea:focus {
+    border-color: #008080 !important;
+}
+
+/* Nuclear option - remove red from all focus states globally */
+*:focus {
+    outline-color: #008080 !important;
+    border-color: #008080 !important;
+    box-shadow: 0 0 0 3px rgba(0, 128, 128, 0.2) !important;
+}
+
+/* Text area cursor styling */
+.stTextArea textarea {
+    cursor: text !important;
+    border: 1px solid #5f9ea0 !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease !important;
+}
+
+.stTextArea textarea:focus {
+    cursor: text !important;
+    border-color: #008080 !important;
+    box-shadow: 0 0 0 2px rgba(0, 128, 128, 0.2) !important;
+    outline: none !important;
+}
+
+/* Force cursor on all text inputs */
+.stTextInput input,
+.stTextArea textarea,
+.stTextInput input:focus,
+.stTextArea textarea:focus {
+    cursor: text !important;
+}
+
+/* Remove any red focus states */
+.stTextArea textarea:focus {
+    border-color: #008080 !important;
+}
+
+/* Nuclear option for cursor */
+.stTextArea textarea {
+    caret-color: #004242 !important;
+}
