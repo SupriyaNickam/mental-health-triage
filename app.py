@@ -2,6 +2,15 @@ import streamlit as st
 import pandas as pd
 import random
 
+if 'selected_languages' not in st.session_state:
+    st.session_state.selected_languages = []
+
+if 'selected_locations' not in st.session_state:
+    st.session_state.selected_locations = []
+
+if 'filters_initialized' not in st.session_state:
+    st.session_state.filters_initialized = False
+
 # Load css
 def load_css():
     try:
@@ -137,7 +146,7 @@ def show_calm_screen():
         st.success(f"{random.choice(tips)}")
 
 def calculate_relevance_score(resource, user_query):
-    # Calculate relevance score based on multiple factors including specialty matching
+    #Calculate relevance score with proper specialty matching
     score = 0
     query_lower = user_query.lower()
     specialty = str(resource['specialty']).lower()
@@ -162,10 +171,30 @@ def calculate_relevance_score(resource, user_query):
     elif 'Online' in str(resource['location']):
         score += 25
     
-    # Specialty matching (check if resource specialty matches query keywords)
-    specialty = str(resource['specialty']).lower()
-    if any(keyword in specialty for keyword in query_lower.split()):
-        score += 35
+    # Proper specialty matching
+    specialty_words = specialty.split()
+    matched_specialty_words = [word for word in specialty_words if word in query_lower]
+    
+    if matched_specialty_words:
+        # Give points based on how many specialty words match
+        score += len(matched_specialty_words) * 15
+        # Bonus for exact specialty match
+        if len(matched_specialty_words) >= 2:
+            score += 20
+    
+    #Check if query contains common mental health terms that match specialty
+    mental_health_terms = {
+        'anxiety': ['anxiety', 'panic', 'worry', 'nervous'],
+        'depression': ['depression', 'sad', 'hopeless', 'empty'],
+        'trauma': ['trauma', 'abuse', 'ptsd', 'violent'],
+        'relationship': ['relationship', 'marriage', 'couple', 'partner'],
+        'lgbtq': ['lgbtq', 'gay', 'lesbian', 'transgender', 'gender'],
+        'academic': ['academic', 'exam', 'study', 'college', 'career']
+    }
+    
+    for term, keywords in mental_health_terms.items():
+        if term in specialty and any(keyword in query_lower for keyword in keywords):
+            score += 25
     
     # Languages (bonus for English/Hindi which are most common)
     languages = str(resource['languages']).lower()
