@@ -41,7 +41,7 @@ if not st.session_state.model_initialized:
                         classifier.load_model(model_path)
                         st.session_state.classifier = classifier
                         model_loaded = True
-                        st.success("✅ AI model loaded successfully!")
+                       # st.success("AI model loaded successfully!")
                         break
                     elif model_path.endswith('.py'):
                         # Train model if no pre-trained model exists
@@ -51,7 +51,7 @@ if not st.session_state.model_initialized:
                         classifier.save_model()
                         st.session_state.classifier = classifier
                         model_loaded = True
-                        st.success("✅ AI model trained and loaded!")
+                        #st.success("AI model trained and loaded!")
                         break
                 except Exception as e:
                     continue
@@ -252,7 +252,7 @@ if st.session_state.get('filters_initialized', False):
                     help="All crisis helplines handle multiple languages",
                     disabled=True
                 )
-                st.caption("🌐 Crisis helplines handle multiple languages")
+                st.caption("Crisis helplines handle multiple languages")
             else:
                 st.session_state.selected_languages = st.multiselect(
                     "Filter by language:",
@@ -392,11 +392,10 @@ with st.sidebar:
         ]
         st.info(random.choice(exercises))
     
-    # Circular image from your rectangular file
+    
     st.divider()
         
     try:
-        # Just show the image as-is first to confirm it works
         st.image("sidebar_image.png", width=220, caption="  ")
     except Exception as e:
         st.error(f"Cannot load image: {e}")
