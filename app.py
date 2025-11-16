@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import random
-import threading
 
 # Load css
 def load_css():
@@ -11,7 +10,6 @@ def load_css():
     except FileNotFoundError:
         st.error("CSS file not found. Using default styling.")
 
-# Call this function right after imports
 load_css()
 
 # Set up the page
@@ -24,7 +22,7 @@ if 'model_initialized' not in st.session_state:
     st.session_state.model_initialized = False
     st.session_state.classifier = None
 
-# Load ML model only once
+# Load ML model 
 if not st.session_state.model_initialized:
     with st.spinner("🤖 Loading AI model (one-time setup)..."):
         try:
@@ -38,9 +36,9 @@ if not st.session_state.model_initialized:
             st.session_state.model_initialized = True
             st.sidebar.warning(f"ML model not available: {str(e)}")
 
+#load csv file
 @st.cache_data
 def load_resources():
-    """Load the resources database"""
     try:
         df = pd.read_csv('indian_mental_health_resources.csv.csv')
         return df
@@ -48,10 +46,10 @@ def load_resources():
         st.error("Resources database not found.")
         return pd.DataFrame()
 
-# Load data
+# Load data to dataframe
 resources_df = load_resources()
 
-# Enhanced categorization with more mental health keywords
+# Categorization with mental health keywords
 def categorize_query(text):
     """Enhanced rule-based categorization"""
     text_lower = text.lower()
@@ -82,12 +80,11 @@ def categorize_query(text):
     elif any(word in text_lower for word in general_anxiety_keywords):  # General anxiety
         return 'therapy'
     else:
-        return 'helpline'
+        return 'crisis'
 
+#Calm tip while loading analysis results
 def show_calm_screen():
-    """Display calming content while processing"""
     with st.spinner("🤖 AI is carefully analyzing your needs..."):
-        # Quick self-care tip
         tips = [
             "🌱 **Breathe**: Inhale for 4, hold for 4, exhale for 6",
             "🕊️ **Ground yourself**: Name 3 things you can see, 2 you can touch, 1 you can hear",
