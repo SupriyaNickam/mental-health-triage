@@ -79,7 +79,7 @@ if not st.session_state.model_initialized:
 @st.cache_data
 def load_resources():
     try:
-        df = pd.read_csv('indian_mental_health_resources.csv.csv')
+        df = pd.read_csv('indian_mental_health_resources.csv')
         return df
     except FileNotFoundError:
         st.error("Resources database not found.")
